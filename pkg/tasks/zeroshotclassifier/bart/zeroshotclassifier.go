@@ -37,9 +37,9 @@ type ZeroShotClassifier struct {
 	// Model is the model used for zero-shot classification.
 	Model *bart.ModelForSequenceClassification
 	// Tokenizer is the tokenizer.
-	Tokenizer                     *bpetokenizer.BPETokenizer
-	embeddingsRepo                *diskstore.Repository
-	entailmentID, contradictionID int
+	Tokenizer                                *bpetokenizer.BPETokenizer
+	embeddingsRepo                           *diskstore.Repository
+	entailmentID, contradictionID, neutralID int
 }
 
 // LoadZeroShotClassifier loads a ZeroShotClassifier from a directory.
@@ -73,12 +73,17 @@ func LoadZeroShotClassifier(modelPath string) (*ZeroShotClassifier, error) {
 		return nil, err
 	}
 
+	neutralID, err := m.Bart.Config.NeutralID()
+	if err != nil {
+		return nil, err
+	}
 	return &ZeroShotClassifier{
 		Model:           m,
 		Tokenizer:       tok,
 		embeddingsRepo:  embeddingsRepo,
 		entailmentID:    entailmentID,
 		contradictionID: contradictionID,
+		neutralID:       neutralID,
 	}, nil
 }
 

@@ -25,7 +25,7 @@ func (m *ZeroShotClassifier) score(premise []int, multiClass bool) func(hypothes
 		}
 
 		// softmax over the entailment vs. contradiction for each label independently
-		return mat.NewVecDense(sliceFromIndices(logits.Value(), m.entailmentID, m.contradictionID)).
+		return mat.NewVecDense(sliceFromIndices(logits.Value(), m.entailmentID, m.neutralID, m.contradictionID)).
 			Softmax().
 			ScalarAtVec(0).
 			F64()

@@ -96,3 +96,11 @@ func (c *Config) ContradictionID() (int, error) {
 	}
 	return id, nil
 }
+
+func (c *Config) NeutralID() (int, error) {
+	id, ok := c.Label2ID["neutral"]
+	if !ok {
+		return -1, fmt.Errorf("bart: `neutral` label not found")
+	}
+	return id, nil
+}
